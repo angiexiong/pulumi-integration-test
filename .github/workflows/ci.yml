@@ -64,7 +64,8 @@ jobs:
       - name: Pulumi Login
         run: |
           ./pulumi_login.sh -p datasci
-          ./authorize_keyvault_for_self.sh
+          # ./authorize_keyvault_for_self.sh
+          ./pulumi_wrapper.sh preview
       
       - uses: pulumi/actions@v3
         with:
