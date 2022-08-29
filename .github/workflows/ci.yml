@@ -65,11 +65,13 @@ jobs:
         run: |
           ./pulumi_login.sh -p datasci
           # ./authorize_keyvault_for_self.sh
-          ./pulumi_wrapper.sh preview
+          # ./pulumi_wrapper.sh preview
       
       - uses: pulumi/actions@v3
-        with:
-          command: preview
-          stack-name: dev
+        id: pulumi
         env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
+        with:
+            command: up
+            cloud-url: azblob://datasci
+            stack-name: dev
