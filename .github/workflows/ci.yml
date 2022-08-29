@@ -21,14 +21,21 @@ jobs:
       - name: Install poetry
         run: |
           pipx install poetry
-          # Install Azure cli
+          
+      - name: Install az cli
+        run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+          az version
+          echo "Hello world!"
+      - name: Install Pulumi CLI
+        uses: pulumi/setup-pulumi@v2
 
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: ${{ env.workflow_python_version }}
           cache: poetry
+
       - name: Install Python Dependencies
         # env:
           # POETRY_HTTP_BASIC_ARTIFACTORY_DEPS_USERNAME: ${{ secrets.MERATIVE_POETRY_HTTP_BASIC_PYPI_USERNAME }}
@@ -37,22 +44,25 @@ jobs:
           poetry install
 
       # Test, build, publish
-
-      - name: Install az cli
+      - name: Test Azure commands
         run: |
           az version
-          echo "Hello world!"
-          # curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-
+      
       - name: Azure Login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
-      - name: Azure CLI script file
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.38.0
-          inlineScript: |
-            az version
-            echo "Hello world!"
+      # - name: Azure CLI script file
+      #   uses: azure/CLI@v1
+      #   with:
+      #     azcliversion: 2.39.0
+      #     inlineScript: |
+      #       az version
+      #       echo "Hello world!"
+      
+      - name: Pulumi Login
+        run: pulumi version
+
+      # - name: Preview Azure Resources
+      #   run: pulumi preview
