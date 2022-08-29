@@ -18,7 +18,7 @@ fi
 echo "Current pulumi project: $AIA_PROJECT_NAME"
 
 # CD to project
-cd "$SCRIPT_DIR/aia_azure_deploy/$AIA_PROJECT_NAME"
+cd "$SCRIPT_DIR"
 
 KEY_NAME="pulumi-stack-"$(poetry run pulumi stack --show-name)""
 az keyvault key create --name "$KEY_NAME" --vault-name "$MERATIVE_PROJECT_KEYVAULT"

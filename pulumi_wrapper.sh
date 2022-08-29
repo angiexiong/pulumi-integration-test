@@ -20,7 +20,7 @@ fi
 echo "Current pulumi project: $AIA_PROJECT_NAME"
 
 # CD to project
-cd "$SCRIPT_DIR/aia_azure_deploy/$AIA_PROJECT_NAME"
+cd "$SCRIPT_DIR"
 
 # Use poetry to execute
 poetry run pulumi "$@"

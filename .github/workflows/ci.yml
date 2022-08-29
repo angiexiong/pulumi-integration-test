@@ -62,7 +62,13 @@ jobs:
       #       echo "Hello world!"
       
       - name: Pulumi Login
-        run: pulumi version
-
-      # - name: Preview Azure Resources
-      #   run: pulumi preview
+        run: |
+          ./pulumi_login.sh -p datasci
+          ./authorize_keyvault_for_self.sh
+      
+      - uses: pulumi/actions@v3
+        with:
+          command: preview
+          stack-name: dev
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}

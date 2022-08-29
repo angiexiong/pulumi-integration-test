@@ -12,10 +12,10 @@ if [ -f "$DEV_ENV_FILE" ]; then
 fi
 
 # Storage account used in dev
-export AZURE_STORAGE_ACCOUNT=opstates4i7ep5drkf34s4i
+export AZURE_STORAGE_ACCOUNT=axpulumistorage
 
 
-export AZURE_STORAGE_ACCOUNT_RG="aia-dev-eastus2-ops"
+export AZURE_STORAGE_ACCOUNT_RG="ax-learning"
 
 
 # TODO - see if the service principal login details can be used instead
@@ -88,9 +88,9 @@ export AZURE_STORAGE_ACCOUNT='$AZURE_STORAGE_ACCOUNT'
 export AZURE_STORAGE_KEY='$AZURE_STORAGE_KEY'
 AIA_PROJECT_NAME='$AIA_PROJECT_NAME'
 export PULUMI_CONFIG_PASSPHRASE='$PULUMI_CONFIG_PASSPHRASE'
-export AZURE_STORAGE_ACCOUNT_RG="aia-dev-eastus2-ops"
+export AZURE_STORAGE_ACCOUNT_RG="ax-learning"
 export AZURE_KEYVAULT_AUTH_VIA_CLI="true"
-export MERATIVE_PROJECT_KEYVAULT="opsecrets4i7ep5drkf34"
+export MERATIVE_PROJECT_KEYVAULT="axpulumikv"
 EOF
 
 pulumi login "azblob://${AIA_PROJECT_NAME//[_]/-}"

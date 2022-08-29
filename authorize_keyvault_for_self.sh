@@ -19,9 +19,9 @@ fi
 echo "Current pulumi project: $AIA_PROJECT_NAME"
 
 # CD to project
-cd "$SCRIPT_DIR/aia_azure_deploy/$AIA_PROJECT_NAME"
+cd "$SCRIPT_DIR"
 CURRENT_USER_NAME="$(az account show --query user.name -o tsv)"
-CURRENT_USER_ID="$(az ad user show --id "$CURRENT_USER_NAME" --query id --out tsv)"
+CURRENT_USER_ID="$(az ad user show --id "7a78efae-1e46-4f5d-98e1-1e0cadbc70b1" --query id --out tsv)"
 
 # Set the relevant permissions on the keyvault
 az keyvault set-policy --key-permissions decrypt get create delete list update encrypt \
