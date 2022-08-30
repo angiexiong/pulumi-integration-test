@@ -43,12 +43,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
       - name: Before Pulumi Preview
-        run: |
-          ls -al
-          python3 -m venv venv/ 
-          source venv/bin/activate
-          ls -al
-          pip install pulumi pulumi-azure-native pulumi-random
+        run: .github/scripts/pre-pulumi.sh ${{ secrets.ARM_CLIENT_ID }} ${{ secrets.ARM_CLIENT_SECRET }} ${{ secrets.ARM_TENANT_ID }} ${{ secrets.ARM_SUBSCRIPTION_ID }}
       
       - uses: pulumi/actions@v3
         with:
