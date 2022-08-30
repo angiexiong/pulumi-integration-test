@@ -36,28 +36,23 @@ jobs:
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
           az version
-
-      # Test, build, publish
-      - name: Test Azure commands
-        run: |
-          az version
       
       - name: Azure Login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
-      - name: Pulumi Login
-        run: |
-          ./pulumi_login.sh -p datasci
-          ./pulumi_wrapper.sh stack select ax-dev
-          # ls -al
-          # cat .pulumi-dev.env
-          # python3 -m venv venv/ 
-          # source venv/bin/activate
-          # ls -al
-          # pip install pulumi pulumi-azure-native pulumi-random
-          # ./pulumi_wrapper.sh preview
+      # - name: Pulumi Login
+      #   run: |
+      #     ./pulumi_login.sh -p datasci
+      #     ./pulumi_wrapper.sh stack select ax-dev
+      #     # ls -al
+      #     # cat .pulumi-dev.env
+      #     # python3 -m venv venv/ 
+      #     # source venv/bin/activate
+      #     # ls -al
+      #     # pip install pulumi pulumi-azure-native pulumi-random
+      #     # ./pulumi_wrapper.sh preview
       
       - uses: pulumi/actions@v3
         with:
@@ -65,4 +60,6 @@ jobs:
           stack-name: ax-dev
           cloud-url: azblob://datasci
         env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
+          AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
+          AZURE_KEYVAULT_AUTH_VIA_CLI: true
