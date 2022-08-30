@@ -64,6 +64,7 @@ jobs:
       - name: Pulumi Login
         run: |
           ./pulumi_login.sh -p datasci
+          ./pulumi_wrapper.sh stack select ax-dev
           # ./authorize_keyvault_for_self.sh
           ./pulumi_wrapper.sh preview
       
