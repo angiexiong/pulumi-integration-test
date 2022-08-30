@@ -9,11 +9,11 @@ import pulumi_random as random
 
 config = pulumi.Config()
 
-resource_group = resources.ResourceGroup("synapse-rg")
+resource_group_name=config.get("resource_group_name")
 
 storage_account = storage.StorageAccount(
     "synapsesa",
-    resource_group_name=resource_group.name,
+    resource_group_name=resource_group_name,
     access_tier=storage.AccessTier.HOT,
     enable_https_traffic_only=True,
     is_hns_enabled=True,
@@ -26,13 +26,13 @@ data_lake_storage_account_url = storage_account.name.apply(lambda name: f"https:
 
 users = storage.BlobContainer(
     "users",
-    resource_group_name=resource_group.name,
+    resource_group_name=resource_group_name,
     account_name=storage_account.name,
     public_access=storage.PublicAccess.NONE)
 
 workspace = synapse.Workspace(
     "workspace",
-    resource_group_name=resource_group.name,
+    resource_group_name=resource_group_name,
     default_data_lake_storage=synapse.DataLakeStorageAccountDetailsArgs(
         account_url=data_lake_storage_account_url,
         filesystem="users",
@@ -45,35 +45,35 @@ workspace = synapse.Workspace(
 
 allow_all = synapse.IpFirewallRule(
     "allowAll",
-    resource_group_name=resource_group.name,
+    resource_group_name=resource_group_name,
     workspace_name=workspace.name,
     end_ip_address="255.255.255.255",
     start_ip_address="0.0.0.0")
 
-subscription_id = resource_group.id.apply(lambda id: id.split('/')[2])
-role_definition_id = subscription_id.apply(
-    lambda
-        id: f"/subscriptions/{id}/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe")
+# subscription_id = authorization.get_client_config().subscription_id
+# role_definition_id = subscription_id.apply(
+#     lambda
+#         id: f"/subscriptions/{id}/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe")
 
-storage_access = authorization.RoleAssignment(
-    "storageAccess",
-    role_assignment_name=random.RandomUuid("roleName").result,
-    scope=storage_account.id,
-    principal_id=workspace.identity.principal_id.apply(lambda v: v or "<preview>"),
-    principal_type="ServicePrincipal",
-    role_definition_id=role_definition_id)
+# storage_access = authorization.RoleAssignment(
+#     "storageAccess",
+#     role_assignment_name=random.RandomUuid("roleName").result,
+#     scope=storage_account.id,
+#     principal_id=workspace.identity.principal_id.apply(lambda v: v or "<preview>"),
+#     principal_type="ServicePrincipal",
+#     role_definition_id=role_definition_id)
 
-user_access = authorization.RoleAssignment(
-    "userAccess",
-    role_assignment_name=random.RandomUuid("userRoleName").result,
-    scope=storage_account.id,
-    principal_id=config.require("userObjectId"),
-    principal_type="User",
-    role_definition_id=role_definition_id)
+# user_access = authorization.RoleAssignment(
+#     "userAccess",
+#     role_assignment_name=random.RandomUuid("userRoleName").result,
+#     scope=storage_account.id,
+#     principal_id=config.require("userObjectId"),
+#     principal_type="User",
+#     role_definition_id=role_definition_id)
 
 sql_pool = synapse.SqlPool(
     "SQLPOOL1",
-    resource_group_name=resource_group.name,
+    resource_group_name=resource_group_name,
     workspace_name=workspace.name,
     collation="SQL_Latin1_General_CP1_CI_AS",
     create_mode="Default",
@@ -83,7 +83,7 @@ sql_pool = synapse.SqlPool(
 
 spark_pool = synapse.BigDataPool(
     "Spark1",
-    resource_group_name=resource_group.name,
+    resource_group_name=resource_group_name,
     workspace_name=workspace.name,
     auto_pause=synapse.AutoPausePropertiesArgs(
         delay_in_minutes=15,
