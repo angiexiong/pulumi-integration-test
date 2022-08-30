@@ -22,7 +22,7 @@ jobs:
         run: |
           pipx install poetry
           
-      - name: Install az cli
+      - name: Install Azure Cli
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
           az version
@@ -61,17 +61,17 @@ jobs:
       #       az version
       #       echo "Hello world!"
       
-      # - name: Pulumi Login
-      #   run: |
-      #     ./pulumi_login.sh -p datasci
-      #     # ./authorize_keyvault_for_self.sh
-      #     # ./pulumi_wrapper.sh preview
+      - name: Pulumi Login
+        run: |
+          ./pulumi_login.sh -p datasci
+          # ./authorize_keyvault_for_self.sh
+          ./pulumi_wrapper.sh preview
       
-      - uses: pulumi/actions@v3
-        id: pulumi
-        env:
-          PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
-        with:
-            command: up
-            cloud-url: azblob://datasci
-            stack-name: dev
+      # - uses: pulumi/actions@v3
+      #   id: pulumi
+      #   env:
+      #     PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
+      #   with:
+      #       command: up
+      #       cloud-url: azblob://datasci
+      #       stack-name: dev
