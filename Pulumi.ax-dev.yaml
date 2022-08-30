@@ -1,1 +1,5 @@
 encryptionsalt: v1:vZrgquqQ3ZY=:v1:BS/GJShw0KrnpyxM:xGWuuf0xJPrj98UuABezxJduCLoA2Q==
+config:
+  azure-py-synapse:synapse-rg: ax-learning
+  azure-py-synapse:userObjectId: 7a78efae-1e46-4f5d-98e1-1e0cadbc70b1
+  azure-native:location: eastus
