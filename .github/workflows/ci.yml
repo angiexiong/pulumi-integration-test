@@ -70,7 +70,7 @@ jobs:
           pip list
           pip install pulumi pulumi-azure-native pulumi-random
           # source venv/bin/activate
-          poetry run ./pulumi_wrapper.sh preview
+          ./pulumi_wrapper.sh preview
       
       # - uses: pulumi/actions@v3
       #   id: pulumi
