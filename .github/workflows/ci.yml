@@ -67,9 +67,9 @@ jobs:
           ./pulumi_wrapper.sh stack select ax-dev
           ls -al
           cat .pulumi-dev.env
-          pip list
           python3 -m venv venv/ 
           source venv/bin/activate
+          ls -al
           pip install pulumi pulumi-azure-native pulumi-random
           ./pulumi_wrapper.sh preview
       
