@@ -42,17 +42,13 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
-      # - name: Pulumi Login
-      #   run: |
-      #     ./pulumi_login.sh -p datasci
-      #     ./pulumi_wrapper.sh stack select ax-dev
-      #     # ls -al
-      #     # cat .pulumi-dev.env
-      #     # python3 -m venv venv/ 
-      #     # source venv/bin/activate
-      #     # ls -al
-      #     # pip install pulumi pulumi-azure-native pulumi-random
-      #     # ./pulumi_wrapper.sh preview
+      - name: Before Pulumi Preview
+        run: |
+          ls -al
+          python3 -m venv venv/ 
+          source venv/bin/activate
+          ls -al
+          pip install pulumi pulumi-azure-native pulumi-random
       
       - uses: pulumi/actions@v3
         with:
