@@ -36,9 +36,6 @@ jobs:
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
           az version
-      
-      - name: Install Pulumi CLI
-        uses: pulumi/setup-pulumi@v2
 
       # Test, build, publish
       - name: Test Azure commands
@@ -65,7 +62,7 @@ jobs:
       - uses: pulumi/actions@v3
         with:
           command: preview
-          stack-name: dev
+          stack-name: ax-dev
           cloud-url: azblob://datasci
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
