@@ -18,15 +18,19 @@ jobs:
       - name: Checkout
         uses: actions/Checkout@v3
 
+      - name: Install poetry
+        run: |
+          pipx install poetry
+
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: ${{ env.workflow_python_version }}
           cache: poetry
 
-      - name: Install poetry
+      - name: Install Python Dependencies
         run: |
-          pipx install poetry
+          poetry install
           
       - name: Install Azure Cli
         run: |
@@ -35,10 +39,6 @@ jobs:
       
       - name: Install Pulumi CLI
         uses: pulumi/setup-pulumi@v2
-
-      - name: Install Python Dependencies
-        run: |
-          poetry install
 
       # Test, build, publish
       - name: Test Azure commands
@@ -49,12 +49,6 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      
-      # - name: Azure CLI script file
-      #   uses: azure/CLI@v1
-      #   with:
-      #     inlineScript: |
-      #       az version
       
       - name: Pulumi Login
         run: |
