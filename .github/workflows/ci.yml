@@ -68,8 +68,9 @@ jobs:
           ls -al
           cat .pulumi-dev.env
           pip list
+          python3 -m venv venv/ 
+          source venv/bin/activate
           pip install pulumi pulumi-azure-native pulumi-random
-          # source venv/bin/activate
           ./pulumi_wrapper.sh preview
       
       # - uses: pulumi/actions@v3
