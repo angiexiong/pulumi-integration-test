@@ -50,19 +50,19 @@ jobs:
           ls -al
           pip install pulumi pulumi-azure-native pulumi-random
       
-      - name: Azure Login with scripts
-        run: |
-          ./pulumi_login.sh -p datasci
-          ./pulumi_wrapper.sh stack select ax-dev
-          ./pulumi_wrapper.sh preview
+      # - name: Azure Login with scripts
+      #   run: |
+      #     ./pulumi_login.sh -p datasci
+      #     ./pulumi_wrapper.sh stack select ax-dev
+      #     ./pulumi_wrapper.sh preview
       
-      # - uses: pulumi/actions@v3
-      #   with:
-      #     command: preview
-      #     stack-name: ax-dev
-      #     cloud-url: azblob://datasci
-      #   env:
-      #     AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
-      #     AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
-      #     AZURE_KEYVAULT_AUTH_VIA_CLI: true
-      #     PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
+      - uses: pulumi/actions@v3
+        with:
+          command: preview
+          stack-name: ax-dev
+          cloud-url: azblob://datasci
+        env:
+          AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
+          AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
+          AZURE_KEYVAULT_AUTH_VIA_CLI: true
+          PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
