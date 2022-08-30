@@ -14,41 +14,50 @@ resource_group_name=config.get("resource_group_name")
 storage_account = storage.StorageAccount(
     "synapsesa",
     resource_group_name=resource_group_name,
-    access_tier=storage.AccessTier.HOT,
-    enable_https_traffic_only=True,
-    is_hns_enabled=True,
-    kind=storage.Kind.STORAGE_V2,
     sku=storage.SkuArgs(
-        name=storage.SkuName.STANDARD_RAGRS,
-    ))
-
-data_lake_storage_account_url = storage_account.name.apply(lambda name: f"https://{name}.dfs.core.windows.net")
-
-users = storage.BlobContainer(
-    "users",
-    resource_group_name=resource_group_name,
-    account_name=storage_account.name,
-    public_access=storage.PublicAccess.NONE)
-
-workspace = synapse.Workspace(
-    "workspace",
-    resource_group_name=resource_group_name,
-    default_data_lake_storage=synapse.DataLakeStorageAccountDetailsArgs(
-        account_url=data_lake_storage_account_url,
-        filesystem="users",
+        name=storage.SkuName.STANDARD_ZRS,
     ),
-    identity=synapse.ManagedIdentityArgs(
-        type=synapse.ResourceIdentityType.SYSTEM_ASSIGNED,
-    ),
-    sql_administrator_login="sqladminuser",
-    sql_administrator_login_password=random.RandomPassword("workspacePwd", length=12).result)
+    kind=storage.Kind.STORAGE_V2
+)
 
-allow_all = synapse.IpFirewallRule(
-    "allowAll",
-    resource_group_name=resource_group_name,
-    workspace_name=workspace.name,
-    end_ip_address="255.255.255.255",
-    start_ip_address="0.0.0.0")
+# storage_account = storage.StorageAccount(
+#     "synapsesa",
+#     resource_group_name=resource_group_name,
+#     access_tier=storage.AccessTier.HOT,
+#     enable_https_traffic_only=True,
+#     is_hns_enabled=True,
+#     kind=storage.Kind.STORAGE_V2,
+#     sku=storage.SkuArgs(
+#         name=storage.SkuName.STANDARD_RAGRS,
+#     ))
+
+# data_lake_storage_account_url = storage_account.name.apply(lambda name: f"https://{name}.dfs.core.windows.net")
+
+# users = storage.BlobContainer(
+#     "users",
+#     resource_group_name=resource_group_name,
+#     account_name=storage_account.name,
+#     public_access=storage.PublicAccess.NONE)
+
+# workspace = synapse.Workspace(
+#     "workspace",
+#     resource_group_name=resource_group_name,
+#     default_data_lake_storage=synapse.DataLakeStorageAccountDetailsArgs(
+#         account_url=data_lake_storage_account_url,
+#         filesystem="users",
+#     ),
+#     identity=synapse.ManagedIdentityArgs(
+#         type=synapse.ResourceIdentityType.SYSTEM_ASSIGNED,
+#     ),
+#     sql_administrator_login="sqladminuser",
+#     sql_administrator_login_password=random.RandomPassword("workspacePwd", length=12).result)
+
+# allow_all = synapse.IpFirewallRule(
+#     "allowAll",
+#     resource_group_name=resource_group_name,
+#     workspace_name=workspace.name,
+#     end_ip_address="255.255.255.255",
+#     start_ip_address="0.0.0.0")
 
 # subscription_id = authorization.get_client_config().subscription_id
 # role_definition_id = subscription_id.apply(
@@ -71,30 +80,30 @@ allow_all = synapse.IpFirewallRule(
 #     principal_type="User",
 #     role_definition_id=role_definition_id)
 
-sql_pool = synapse.SqlPool(
-    "SQLPOOL1",
-    resource_group_name=resource_group_name,
-    workspace_name=workspace.name,
-    collation="SQL_Latin1_General_CP1_CI_AS",
-    create_mode="Default",
-    sku=synapse.SkuArgs(
-        name="DW100c",
-    ))
+# sql_pool = synapse.SqlPool(
+#     "SQLPOOL1",
+#     resource_group_name=resource_group_name,
+#     workspace_name=workspace.name,
+#     collation="SQL_Latin1_General_CP1_CI_AS",
+#     create_mode="Default",
+#     sku=synapse.SkuArgs(
+#         name="DW100c",
+#     ))
 
-spark_pool = synapse.BigDataPool(
-    "Spark1",
-    resource_group_name=resource_group_name,
-    workspace_name=workspace.name,
-    auto_pause=synapse.AutoPausePropertiesArgs(
-        delay_in_minutes=15,
-        enabled=True,
-    ),
-    auto_scale=synapse.AutoScalePropertiesArgs(
-        enabled=True,
-        max_node_count=3,
-        min_node_count=3,
-    ),
-    node_count=3,
-    node_size="Small",
-    node_size_family="MemoryOptimized",
-    spark_version="2.4")
+# spark_pool = synapse.BigDataPool(
+#     "Spark1",
+#     resource_group_name=resource_group_name,
+#     workspace_name=workspace.name,
+#     auto_pause=synapse.AutoPausePropertiesArgs(
+#         delay_in_minutes=15,
+#         enabled=True,
+#     ),
+#     auto_scale=synapse.AutoScalePropertiesArgs(
+#         enabled=True,
+#         max_node_count=3,
+#         min_node_count=3,
+#     ),
+#     node_count=3,
+#     node_size="Small",
+#     node_size_family="MemoryOptimized",
+#     spark_version="2.4")
