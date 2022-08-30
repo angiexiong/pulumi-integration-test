@@ -20,6 +20,6 @@ pip install -r requirements.txt
 ./pulumi_login.sh -p datasci
 ./pulumi_wrapper.sh stack select ax-dev
 ./pulumi_wrapper.sh config set azure-native:clientId "$clientId"
-./pulumi_wrapper.sh config set azure-native:clientSecret "$clientSecret"
+./pulumi_wrapper.sh config set azure-native:clientSecret "$clientSecret" --secret
 ./pulumi_wrapper.sh config set azure-native:tenantId "$tenantId"
 ./pulumi_wrapper.sh config set azure-native:subscriptionId "$subscriptionId"
