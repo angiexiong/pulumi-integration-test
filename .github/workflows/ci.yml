@@ -65,9 +65,10 @@ jobs:
         run: |
           ./pulumi_login.sh -p datasci
           ./pulumi_wrapper.sh stack select ax-dev
-          source venv/bin/activate
-          pip install pulumi pulumi-azure-native pulumi-random
-          ./pulumi_wrapper.sh preview
+          ls -al
+          # source venv/bin/activate
+          # pip install pulumi pulumi-azure-native pulumi-random
+          # ./pulumi_wrapper.sh preview
       
       # - uses: pulumi/actions@v3
       #   id: pulumi
