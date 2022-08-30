@@ -50,12 +50,6 @@ jobs:
           ls -al
           pip install pulumi pulumi-azure-native pulumi-random
       
-      # - name: Azure Login with scripts
-      #   run: |
-      #     ./pulumi_login.sh -p datasci
-      #     ./pulumi_wrapper.sh stack select ax-dev
-      #     ./pulumi_wrapper.sh preview
-      
       - uses: pulumi/actions@v3
         with:
           command: preview
