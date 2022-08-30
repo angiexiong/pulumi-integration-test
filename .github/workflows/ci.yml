@@ -65,7 +65,8 @@ jobs:
         run: |
           ./pulumi_login.sh -p datasci
           ./pulumi_wrapper.sh stack select ax-dev
-          # ./authorize_keyvault_for_self.sh
+          source venv/bin/activate
+          pip install pulumi pulumi-azure-native pulumi-random
           ./pulumi_wrapper.sh preview
       
       # - uses: pulumi/actions@v3
