@@ -17,6 +17,8 @@ poetry export --without-hashes -f requirements.txt --output requirements.txt
 pip install -r requirements.txt
 
 # 2. Configure the service principle for pulumi command.
+./pulumi_login.sh -p datasci
+./pulumi_wrapper.sh stack select ax-dev
 ./pulumi_wrapper.sh config set azure-native:clientId "$clientId"
 ./pulumi_wrapper.sh config set azure-native:clientSecret "$clientSecret"
 ./pulumi_wrapper.sh config set azure-native:tenantId "$tenantId"
