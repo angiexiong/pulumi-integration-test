@@ -46,9 +46,9 @@ jobs:
       - name: Preview or update resource
         id: preview_or_update
         env:
-          REF_NAME: ${{ github.ref_name }}
+          REF_NAME: ${{ env.GITHUB_REF_NAME }}
         run: |
-          if [$REF_NAME == 'refs/heads/ax-integration-2']
+          if [$REF_NAME == 'ax-integration-2']
           then
               echo "$REF_NAME"
               echo "::set-output name=command::update"
