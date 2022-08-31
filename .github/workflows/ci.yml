@@ -14,7 +14,6 @@ jobs:
       workflow_python_version: 3.9
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout
         uses: actions/Checkout@v3
 
@@ -36,58 +35,30 @@ jobs:
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
       
-      - name: Azure Login
+      - name: Azure login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
-      - name: Before Pulumi Preview
+      - name: Before Pulumi deploy
         run: .github/scripts/pre-pulumi.sh ${{ secrets.ARM_CLIENT_ID }} ${{ secrets.ARM_CLIENT_SECRET }} ${{ secrets.ARM_TENANT_ID }} ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      
-      # - name: Pulumi - Preview Resources
-      #   uses: pulumi/actions@v3
-      #   with:
-      #     command: preview
-      #     stack-name: ax-dev
-      #     cloud-url: azblob://datasci
-      #   env:
-      #     AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
-      #     AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
-      #     AZURE_KEYVAULT_AUTH_VIA_CLI: true
-      #     PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
-      
-      # - name: Pulumi - Update Resources
-      #   if: github.ref_name == 'main'
-      #   uses: pulumi/actions@v3
-      #   with:
-      #     command: update
-      #     stack-name: ax-dev
-      #     cloud-url: azblob://datasci
-      #   env:
-      #     AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
-      #     AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
-      #     AZURE_KEYVAULT_AUTH_VIA_CLI: true
-      #     PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
 
-      - name: Deploy Resource or not
-        id: deploy_or_not
+      - name: Preview or update resource
+        id: preview_or_update
         env:
           REF_NAME: ${{ github.ref_name }}
         run: |
           if [$REF_NAME == 'main']
           then
-              echo "::set-output name=deploy::update"
-              echo "update......"
-              echo "$REF_NAME"
+              echo "::set-output name=command::update"
           else
-              echo "::set-output name=deploy::preview"
-              echo "preview......"
+              echo "::set-output name=command::preview"
           fi
 
-      - name: Pulumi deploy
+      - name: Deploy resource
         uses: pulumi/actions@v3
         with:
-          command: ${{ steps.deploy_or_not.outputs.deploy }}
+          command: ${{ steps.preview_or_update.outputs.command }}
           stack-name: ax-dev
           cloud-url: azblob://datasci
         env:
