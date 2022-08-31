@@ -48,12 +48,11 @@ jobs:
         env:
           REF_NAME: ${{ env.GITHUB_REF_NAME }}
         run: |
-          if [$REF_NAME == 'ax-integration-2']
-          then
-              echo "$REF_NAME"
-              echo "::set-output name=command::update"
+          if [ "$REF_NAME" == "ax-integration-2" ]; then
+            echo "$REF_NAME"
+            echo "::set-output name=command::update"
           else
-              echo "::set-output name=command::preview"
+            echo "::set-output name=command::preview"
           fi
 
       - name: Deploy resource
