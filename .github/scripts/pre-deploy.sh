@@ -21,11 +21,12 @@ pip install -r requirements.txt
 export AZURE_STORAGE_ACCOUNT=$AZURE_STORAGE_ACCOUNT
 export AZURE_STORAGE_KEY=$AZURE_STORAGE_KEY
 export PULUMI_CONFIG_PASSPHRASE=$PULUMI_CONFIG_PASSPHRASE
-pulumi login pulumi login "azblob://$pulumi_stack_name"
+pulumi login "azblob://$pulumi_stack_name"
+pulumi select "$pulumi_stack_name"
 
-./pulumi_login.sh -p datasci
-./pulumi_wrapper.sh stack select "$pulumi_stack_name"
-./pulumi_wrapper.sh config set azure-native:clientId "$ARM_CLIENT_ID"
-./pulumi_wrapper.sh config set azure-native:clientSecret "$ARM_CLIENT_SECRET" --secret
-./pulumi_wrapper.sh config set azure-native:tenantId "$ARM_TENANT_ID"
-./pulumi_wrapper.sh config set azure-native:subscriptionId "$ARM_SUBSCRIPTION_ID"
+#./pulumi_login.sh -p datasci
+#./pulumi_wrapper.sh stack select "$pulumi_stack_name"
+#./pulumi_wrapper.sh config set azure-native:clientId "$ARM_CLIENT_ID"
+#./pulumi_wrapper.sh config set azure-native:clientSecret "$ARM_CLIENT_SECRET" --secret
+#./pulumi_wrapper.sh config set azure-native:tenantId "$ARM_TENANT_ID"
+#./pulumi_wrapper.sh config set azure-native:subscriptionId "$ARM_SUBSCRIPTION_ID"
