@@ -1,0 +1,13 @@
+# Ignore MacOS files
+.DS_Store
+
+# VS Code ignore
+.vscode/
+
+# Python
+venv/
+.venv/
+*.pyc
+
+# Homemade file to simplify Pulumi / dev usage
+.pulumi-dev.env
