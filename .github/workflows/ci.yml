@@ -50,8 +50,10 @@ jobs:
           REF_NAME: ${{ github.head_ref }}
         run: |
           if [ "$REF_NAME" == "main" ]; then
+            echo "$REF_NAME"
             echo "::set-output name=command::update"
           else
+            echo "$REF_NAME"
             echo "::set-output name=command::preview"
           fi
 
