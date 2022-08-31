@@ -35,7 +35,6 @@ jobs:
       - name: Install Azure Cli
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          az version
       
       - name: Azure Login
         uses: azure/login@v1
@@ -48,7 +47,7 @@ jobs:
       - name: Pulumi - Preview Resources
         uses: pulumi/actions@v3
         with:
-          command: update
+          command: preview
           stack-name: ax-dev
           cloud-url: azblob://datasci
         env:
@@ -57,15 +56,15 @@ jobs:
           AZURE_KEYVAULT_AUTH_VIA_CLI: true
           PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
       
-      # - name: Pulumi - Update Resources
-      #   if: github.ref_name == 'main'
-      #   uses: pulumi/actions@v3
-      #   with:
-      #     command: update
-      #     stack-name: ax-dev
-      #     cloud-url: azblob://datasci
-      #   env:
-      #     AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
-      #     AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
-      #     AZURE_KEYVAULT_AUTH_VIA_CLI: true
-      #     PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
+      - name: Pulumi - Update Resources
+        if: github.ref_name == 'main'
+        uses: pulumi/actions@v3
+        with:
+          command: update
+          stack-name: ax-dev
+          cloud-url: azblob://datasci
+        env:
+          AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
+          AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
+          AZURE_KEYVAULT_AUTH_VIA_CLI: true
+          PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
