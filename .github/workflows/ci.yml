@@ -46,7 +46,7 @@ jobs:
       - name: Preview or update resource
         id: preview_or_update
         env:
-          REF_NAME: ${{ env.GITHUB_REF_NAME }}
+          REF_NAME: ${{ github.ref_name }}
         run: |
           if [ "$REF_NAME" == "ax-integration-2" ]; then
             echo "$REF_NAME"
