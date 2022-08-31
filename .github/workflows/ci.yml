@@ -41,12 +41,17 @@ jobs:
       #     creds: ${{ secrets.AZURE_CREDENTIALS }}
       
       # - name: Before Pulumi deploy
-      #   run: .github/scripts/pre-pulumi.sh ${{ secrets.ARM_CLIENT_ID }} ${{ secrets.ARM_CLIENT_SECRET }} ${{ secrets.ARM_TENANT_ID }} ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      #   run: .github/scripts/pre-pulumi.sh
+      #   env:
+      #     ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      #     ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      #     ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      #     ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
       - name: Preview or update resource
         id: preview_or_update
         env:
-          REF_NAME: ${{ github.ref }}
+          REF_NAME: ${{ github.ref.name }}
         run: |
           if [ "$REF_NAME" == "ax-integration-2" ]; then
             echo "$REF_NAME"
