@@ -30,10 +30,6 @@ jobs:
       - name: Install Python Dependencies
         run: |
           poetry install
-          
-      - name: Install Azure Cli
-        run: |
-          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
       
       - name: Azure login
         uses: azure/login@v1
@@ -41,18 +37,22 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
       - name: Before Pulumi deploy
-        run: .github/scripts/pre-pulumi.sh ${{ secrets.ARM_CLIENT_ID }} ${{ secrets.ARM_CLIENT_SECRET }} ${{ secrets.ARM_TENANT_ID }} ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        run: .github/scripts/pre-deploy.sh
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
       - name: Preview or update resource
         id: preview_or_update
         env:
-          REF_NAME: ${{ github.ref_name }}
+          REF_NAME: ${{ github.head_ref }}
         run: |
-          if [$REF_NAME == 'main']
-          then
-              echo "::set-output name=command::update"
+          if [ "$REF_NAME" == "main" ]; then
+            echo "::set-output name=command::update"
           else
-              echo "::set-output name=command::preview"
+            echo "::set-output name=command::preview"
           fi
 
       - name: Deploy resource
