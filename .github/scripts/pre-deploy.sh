@@ -21,7 +21,7 @@ pip install -r requirements.txt
 export AZURE_STORAGE_ACCOUNT=$AZURE_STORAGE_ACCOUNT
 export AZURE_STORAGE_KEY=$AZURE_STORAGE_KEY
 export PULUMI_CONFIG_PASSPHRASE=$PULUMI_CONFIG_PASSPHRASE
-pulumi login "azblob://$pulumi_stack_name"
+pulumi login "azblob://$project_name"
 pulumi select "$pulumi_stack_name"
 
 #./pulumi_login.sh -p datasci

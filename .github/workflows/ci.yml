@@ -12,6 +12,7 @@ jobs:
   build:
     env:
       workflow_python_version: 3.9
+      project_name: datasci
       pulumi_stack_name: ax-dev
     runs-on: ubuntu-latest
     steps:
