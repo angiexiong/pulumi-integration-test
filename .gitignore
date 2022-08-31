@@ -4,6 +4,8 @@
 # VS Code ignore
 .vscode/
 
+.idea
+
 # Python
 venv/
 .venv/
