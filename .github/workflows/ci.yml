@@ -77,8 +77,11 @@ jobs:
           if [$REF_NAME == 'main']
           then
               echo "::set-output name=deploy::update"
+              echo "update......"
+              echo "$REF_NAME"
           else
               echo "::set-output name=deploy::preview"
+              echo "preview......"
           fi
 
       - name: Pulumi deploy
