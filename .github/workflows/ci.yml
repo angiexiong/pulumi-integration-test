@@ -52,6 +52,7 @@ jobs:
             echo "$REF_NAME"
             echo "::set-output name=command::update"
           else
+            echo "$REF_NAME"
             echo "::set-output name=command::preview"
           fi
 
