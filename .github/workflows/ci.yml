@@ -31,9 +31,9 @@ jobs:
         run: |
           poetry install
           
-      - name: Install Azure Cli
-        run: |
-          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+      # - name: Install Azure Cli
+      #   run: |
+      #     curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
       
       - name: Azure login
         uses: azure/login@v1
