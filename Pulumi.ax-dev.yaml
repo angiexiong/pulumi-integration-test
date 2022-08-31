@@ -3,7 +3,3 @@ config:
   azure-py-synapse:resource_group_name: ax-learning
   azure-py-synapse:userObjectId: 7a78efae-1e46-4f5d-98e1-1e0cadbc70b1
   azure-native:location: eastus
-  # azure-native:clientId: 8e390f39-a269-4224-bb6d-d03912263c3b
-  # azure-native:clientSecret: i3G8Q~D6LGED~Diaf8VjnQgWtjTQ5K4tTYxprb_s
-  # azure-native:tenantId: 21915bf8-0fce-4ef0-8332-854c9fe3c6ed
-  # azure-native:subscriptionId: a8b769f2-cc30-400b-b964-1818d0869dc3

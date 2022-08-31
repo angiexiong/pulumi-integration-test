@@ -19,7 +19,7 @@ pip install -r requirements.txt
 # 2. Authenticate to Azure using a Service Principal.
 # Otherwise the pulumi commands will run in User mode...
 ./pulumi_login.sh -p datasci
-./pulumi_wrapper.sh stack select ax-dev
+./pulumi_wrapper.sh stack select "$pulumi_stack_name"
 ./pulumi_wrapper.sh config set azure-native:clientId "$ARM_CLIENT_ID"
 ./pulumi_wrapper.sh config set azure-native:clientSecret "$ARM_CLIENT_SECRET" --secret
 ./pulumi_wrapper.sh config set azure-native:tenantId "$ARM_TENANT_ID"

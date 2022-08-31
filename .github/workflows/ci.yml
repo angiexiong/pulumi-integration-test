@@ -12,6 +12,7 @@ jobs:
   build:
     env:
       workflow_python_version: 3.9
+      pulumi_stack_name: ax-dev
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -59,7 +60,7 @@ jobs:
         uses: pulumi/actions@v3
         with:
           command: ${{ steps.preview_or_update.outputs.command }}
-          stack-name: ax-dev
+          stack-name: ${{ env.pulumi_stack_name }}
           cloud-url: azblob://datasci
         env:
           AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
