@@ -17,36 +17,36 @@ jobs:
       - name: Checkout
         uses: actions/Checkout@v3
 
-      # - name: Install poetry
-      #   run: |
-      #     pipx install poetry
+      - name: Install poetry
+        run: |
+          pipx install poetry
 
-      # - name: Setup Python
-      #   uses: actions/setup-python@v4
-      #   with:
-      #     python-version: ${{ env.workflow_python_version }}
-      #     cache: poetry
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.workflow_python_version }}
+          cache: poetry
 
-      # - name: Install Python Dependencies
-      #   run: |
-      #     poetry install
+      - name: Install Python Dependencies
+        run: |
+          poetry install
           
-      # - name: Install Azure Cli
-      #   run: |
-      #     curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+      - name: Install Azure Cli
+        run: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
       
-      # - name: Azure login
-      #   uses: azure/login@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
       
-      # - name: Before Pulumi deploy
-      #   run: .github/scripts/pre-pulumi.sh
-      #   env:
-      #     ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-      #     ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-      #     ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-      #     ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      - name: Before Pulumi deploy
+        run: .github/scripts/pre-pulumi.sh
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
       - name: Preview or update resource
         id: preview_or_update
@@ -61,14 +61,14 @@ jobs:
             echo "::set-output name=command::preview"
           fi
 
-      # - name: Deploy resource
-      #   uses: pulumi/actions@v3
-      #   with:
-      #     command: ${{ steps.preview_or_update.outputs.command }}
-      #     stack-name: ax-dev
-      #     cloud-url: azblob://datasci
-      #   env:
-      #     AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
-      #     AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
-      #     AZURE_KEYVAULT_AUTH_VIA_CLI: true
-      #     PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
+      - name: Deploy resource
+        uses: pulumi/actions@v3
+        with:
+          command: ${{ steps.preview_or_update.outputs.command }}
+          stack-name: ax-dev
+          cloud-url: azblob://datasci
+        env:
+          AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
+          AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
+          AZURE_KEYVAULT_AUTH_VIA_CLI: true
+          PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
