@@ -17,7 +17,7 @@ poetry export --without-hashes -f requirements.txt --output requirements.txt
 pip install -r requirements.txt
 
 # 2. Authenticate to Azure using a Service Principal.
-# Otherwise the pulumi commands will run in User mode.
+# Otherwise the pulumi commands will run in User mode...
 ./pulumi_login.sh -p datasci
 ./pulumi_wrapper.sh stack select ax-dev
 ./pulumi_wrapper.sh config set azure-native:clientId "$ARM_CLIENT_ID"
