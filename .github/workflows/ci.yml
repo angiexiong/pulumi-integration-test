@@ -37,33 +37,43 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
-      - name: Before Pulumi deploy
-        run: .github/scripts/pre-deploy.sh
+      - name: Preview or update Azure resources
+        run: .github/scripts/deploy_resources.sh
         env:
+          # Env variables that are used by Pulumi Azur Native SDK.
+          # Ref: https://www.pulumi.com/registry/packages/azure-native/installation-configuration/#make-tokens-available-to-pulumi
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-
-      - name: Preview or update resource
-        id: preview_or_update
-        env:
-          REF_NAME: ${{ github.ref_name }}
-        run: |
-          if [ "$REF_NAME" == "main" ]; then
-            echo "::set-output name=command::update"
-          else
-            echo "::set-output name=command::preview"
-          fi
-
-      - name: Deploy resource
-        uses: pulumi/actions@v3
-        with:
-          command: ${{ steps.preview_or_update.outputs.command }}
-          stack-name: ${{ env.pulumi_stack_name }}
-          cloud-url: azblob://datasci
-        env:
+          # Env variables that are used by Pulumi Azure Blob storage backend.
+          # https://www.pulumi.com/docs/intro/concepts/state/#logging-into-the-azure-blob-storage-backend
           AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
           AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
-          AZURE_KEYVAULT_AUTH_VIA_CLI: true
           PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
+          # Env variables that are used by deploy_resources.sh script
+          AIA_PROJECT_NAME: datasci
+          AIA_PULUMI_STACK_NAME: ax-dev
+
+#       - name: Preview or update resource
+#         id: preview_or_update
+#         env:
+#           REF_NAME: ${{ github.ref_name }}
+#         run: |
+#           if [ "$REF_NAME" == "main" ]; then
+#             echo "::set-output name=command::update"
+#           else
+#             echo "::set-output name=command::preview"
+#           fi
+
+#       - name: Deploy resource
+#         uses: pulumi/actions@v3
+#         with:
+#           command: ${{ steps.preview_or_update.outputs.command }}
+#           stack-name: ${{ env.pulumi_stack_name }}
+#           cloud-url: azblob://datasci
+#         env:
+#           AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
+#           AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
+#           AZURE_KEYVAULT_AUTH_VIA_CLI: true
+#           PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
